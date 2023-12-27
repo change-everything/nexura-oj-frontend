@@ -5,7 +5,7 @@ import accessEnum from "@/access/accessEnum";
  * @param loginUser
  * @param access
  */
-const checkAccess = (loginUser, access) => {
+const checkAccess = (loginUser: any, access: any) => {
   // 获取当前登录用户拥有的权限
   const loginUserAccess = loginUser?.userRole ?? accessEnum.NOT_LOGIN;
 
