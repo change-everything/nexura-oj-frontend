@@ -21,13 +21,16 @@
 #userLayout {
   text-align: center;
 }
+
 #userLayout .logo {
   width: 64px;
   height: 64px;
 }
+
 #userLayout .header {
   margin-top: 16px;
 }
+
 #userLayout .content {
   margin-bottom: 16px;
   padding: 20px;

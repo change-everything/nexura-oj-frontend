@@ -42,8 +42,9 @@ const form = reactive({
 
 const handleSubmit = async () => {
   const res = await UserControllerService.userLoginUsingPost(form);
+  console.log(res);
   if (res.code === 0) {
-    alert("登录成功！\n" + JSON.stringify(form));
+    Message.success("登录成功");
     await store.dispatch("user/getLoginUser");
     router.push({
       path: "/",

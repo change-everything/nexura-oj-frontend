@@ -22,7 +22,7 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>{{ store.state.user?.loginUser?.userName }}</div>
+      <div class="username">{{ store.state.user?.loginUser?.userName }}</div>
     </a-col>
   </a-row>
 </template>
@@ -67,13 +67,6 @@ const filterRouter = computed(() => {
     return true;
   });
 });
-
-setTimeout(() => {
-  store.dispatch("user/getLoginUser", {
-    userName: "nexura",
-    userRole: accessEnum.ADMIN,
-  });
-}, 3000);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -88,5 +81,10 @@ setTimeout(() => {
 .title {
   color: #444;
   margin-left: 16px;
+  font-weight: bolder;
+}
+.username {
+  color: #444;
+  font-weight: bolder;
 }
 </style>
