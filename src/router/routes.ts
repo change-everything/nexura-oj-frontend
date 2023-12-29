@@ -1,6 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import AdminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import accessEnum from "@/access/accessEnum";
 import UserLayout from "@/layouts/UserLayout.vue";
@@ -8,6 +7,8 @@ import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
+import QuestionsView from "@/views/question/QuestionsView.vue";
+import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -32,15 +33,20 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    name: "首页",
-    component: HomeView,
+    name: "主页",
+    component: QuestionsView,
+  },
+  {
+    path: "/questions",
+    name: "浏览题目",
+    component: QuestionsView,
   },
   {
     path: "/question/add",
     name: "创建题目",
     component: AddQuestionView,
     meta: {
-      // access: accessEnum.ADMIN,
+      access: accessEnum.ADMIN,
       hidden: true,
     },
   },
@@ -49,7 +55,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: "修改题目",
     component: AddQuestionView,
     meta: {
-      // access: accessEnum.ADMIN,
+      access: accessEnum.ADMIN,
       hidden: true,
     },
   },
@@ -58,15 +64,17 @@ export const routes: Array<RouteRecordRaw> = [
     name: "管理题目",
     component: ManageQuestionView,
     meta: {
-      // access: accessEnum.ADMIN,
+      access: accessEnum.ADMIN,
     },
   },
   {
-    path: "/admin",
-    name: "管理员",
-    component: AdminView,
+    path: "/view/question/:id",
+    name: "练习",
+    component: ViewQuestionView,
+    props: true,
     meta: {
-      access: accessEnum.ADMIN,
+      access: accessEnum.USER,
+      hidden: true,
     },
   },
   {

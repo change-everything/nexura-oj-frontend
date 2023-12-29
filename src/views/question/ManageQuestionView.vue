@@ -11,9 +11,10 @@
         :pagination="{
           showTotal: true,
           pageSize: searchParams.pageSize,
-          pageNum: searchParams.pageNum,
+          pageNum: searchParams.current,
           total,
         }"
+        @page-change="onPageChange"
       >
         <template #optional="{ record }">
           <a-space>
@@ -27,18 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { Question, QuestionControllerService } from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
-
-const show = ref(true);
 
 const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({
   pageSize: 10,
-  pageNum: 1,
+  current: 1,
 });
 
 const loadData = async () => {
@@ -52,6 +51,10 @@ const loadData = async () => {
     Message.error("加载失败, " + res.message);
   }
 };
+
+watchEffect(() => {
+  loadData();
+});
 
 onMounted(() => {
   loadData();
@@ -135,6 +138,13 @@ const doCreate = () => {
   router.push({
     path: "/question/add",
   });
+};
+
+const onPageChange = (page: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    current: page,
+  };
 };
 </script>
 
