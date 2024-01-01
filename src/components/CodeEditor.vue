@@ -8,13 +8,14 @@
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { onMounted, ref, toRaw, withDefaults, defineProps } from "vue";
+import { onMounted, ref, toRaw, withDefaults, defineProps, watch } from "vue";
 
 const codeEditorRef = ref();
 const codeEditor = ref();
 
 interface Props {
   value: string;
+  language?: string;
   handleChange: (v: string) => void;
 }
 
@@ -29,13 +30,17 @@ const props = withDefaults(defineProps<Props>(), {
   },
 });
 
-const fillValue = () => {
-  if (!codeEditor.value) {
-    return;
+watch(
+  () => props.language,
+  () => {
+    if (codeEditor.value) {
+      monaco.editor.setModelLanguage(
+        toRaw(codeEditor.value).getModel(),
+        props.language
+      );
+    }
   }
-  // 改变值
-  toRaw(codeEditor.value).setValue("新的值");
-};
+);
 
 onMounted(() => {
   if (!codeEditorRef.value) {

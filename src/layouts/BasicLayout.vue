@@ -33,6 +33,7 @@
   left: 0;
   right: 0;
   text-align: center;
+  z-index: 999;
 }
 </style>
 <script setup lang="ts">

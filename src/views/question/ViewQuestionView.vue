@@ -37,7 +37,32 @@
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24">
-        <CodeEditor />
+        <a-space direction="vertical" fill>
+          <a-space>
+            <a-button type="primary" @click="doRunCode"> 运行 </a-button>
+            <a-button type="primary" status="success" @click="doSubmit">
+              提交
+            </a-button>
+          </a-space>
+          <a-form :model="form" layout="inline">
+            <a-form-item
+              field="language"
+              label="编程语言"
+              style="min-width: 280px"
+            >
+              <a-select v-model="form.language" placeholder="请选择编程语言">
+                <a-option>java</a-option>
+                <a-option>cpp</a-option>
+                <a-option>go</a-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+          <CodeEditor
+            :value="form.code"
+            :language="form.language"
+            :handle-change="onCodeChange"
+          />
+        </a-space>
       </a-col>
     </a-row>
   </div>
@@ -45,16 +70,25 @@
 
 <script setup lang="ts">
 import { onMounted, withDefaults, ref, defineProps } from "vue";
-import { QuestionControllerService, QuestionVO } from "../../../generated";
+import {
+  QuestionControllerService,
+  QuestionSubmitControllerService,
+  QuestionVO,
+} from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRoute } from "vue-router";
 import CodeEditor from "@/components/CodeEditor.vue";
-import MdView from "@/components/MdViewer.vue";
 import MdViewer from "@/components/MdViewer.vue";
 
 interface Props {
   id: string;
 }
+
+const form = ref({
+  language: "java",
+  code: "",
+  questionId: "",
+});
 
 const props = withDefaults(defineProps<Props>(), {
   id: () => "",
@@ -83,16 +117,27 @@ onMounted(() => {
   loadData();
 });
 
-const handleSubmit = async () => {
-  console.log(111);
+const doSubmit = async () => {
+  if (!question.value?.id) {
+    return;
+  }
+  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+    ...form.value,
+    questionId: question.value?.id,
+  });
+  if (res.code === 0) {
+    Message.success("提交成功");
+  } else {
+    Message.error("提交失败, " + res.message);
+  }
 };
 
-const onContentChange = (value: string) => {
-  console.log(value);
+const doRunCode = async () => {
+  console.log(222);
 };
 
-const onAnswerChange = (value: string) => {
-  console.log(value);
+const onCodeChange = (value: string) => {
+  form.value.code = value;
 };
 </script>
 
