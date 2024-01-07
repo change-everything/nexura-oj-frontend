@@ -15,7 +15,23 @@
           total,
         }"
         @page-change="onPageChange"
+        :scroll="scroll"
       >
+        <template #tags="{ record }">
+          <a-space wrap>
+            <a-tag
+              v-for="(tag, index) of JSON.parse(record.tags)"
+              :key="index"
+              color="green"
+              >{{ tag }}</a-tag
+            >
+          </a-space>
+        </template>
+
+        <template #createTime="{ record }">
+          {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        </template>
+
         <template #optional="{ record }">
           <a-space>
             <a-button @click="doUpdate(record)" type="primary">修改</a-button>
@@ -32,6 +48,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { Question, QuestionControllerService } from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
+import moment from "moment/moment";
 
 const dataList = ref([]);
 const total = ref(0);
@@ -60,11 +77,11 @@ onMounted(() => {
   loadData();
 });
 
+const scroll = {
+  x: 2000,
+};
+
 const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-  },
   {
     title: "标题",
     dataIndex: "title",
@@ -72,14 +89,18 @@ const columns = [
   {
     title: "内容",
     dataIndex: "content",
+    ellipsis: true,
+    tooltip: "content",
   },
   {
     title: "标签",
-    dataIndex: "tags",
+    slotName: "tags",
   },
   {
     title: "答案",
     dataIndex: "answer",
+    ellipsis: true,
+    tooltip: "answer",
   },
   {
     title: "提交数",
@@ -92,22 +113,27 @@ const columns = [
   {
     title: "判题配置",
     dataIndex: "judgeConfig",
+    ellipsis: true,
+    tooltip: "judgeConfig",
   },
   {
     title: "判题用例",
     dataIndex: "judgeCase",
+    ellipsis: true,
+    tooltip: "judgeCase",
   },
   {
-    title: "用户ID",
-    dataIndex: "userId",
+    title: "创建用户",
+    dataIndex: "userName",
   },
   {
     title: "创建时间",
-    dataIndex: "createTime",
+    slotName: "createTime",
   },
   {
     title: "操作",
     slotName: "optional",
+    fixed: "right",
   },
 ];
 

@@ -34,6 +34,7 @@
 #userLayout .content {
   margin-bottom: 16px;
   padding: 20px;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png");
 }
 
 #userLayout .footer {

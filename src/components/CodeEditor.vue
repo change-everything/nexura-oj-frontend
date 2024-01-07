@@ -2,7 +2,7 @@
   <div
     id="code-editor"
     ref="codeEditorRef"
-    style="min-height: 600px; height: 90vh"
+    style="min-height: 600px; height: 70vh"
   />
 </template>
 
@@ -12,6 +12,7 @@ import { onMounted, ref, toRaw, withDefaults, defineProps, watch } from "vue";
 
 const codeEditorRef = ref();
 const codeEditor = ref();
+let editor: Partial<monaco.editor.IStandaloneCodeEditor> = {};
 
 interface Props {
   value: string;
@@ -38,6 +39,21 @@ watch(
         toRaw(codeEditor.value).getModel(),
         props.language
       );
+    }
+  }
+);
+
+/**回显数据 */
+watch(
+  () => props.value,
+  (val) => {
+    if (codeEditor.value) {
+      const value =
+        toRaw(codeEditor.value).getValue && toRaw(codeEditor.value).getValue();
+      if (val !== value) {
+        toRaw(codeEditor.value).setValue &&
+          toRaw(codeEditor.value).setValue(toRaw(val) || toRaw(""));
+      }
     }
   }
 );

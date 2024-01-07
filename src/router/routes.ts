@@ -38,14 +38,12 @@ export const routes: Array<RouteRecordRaw> = [
     component: QuestionsView,
   },
   {
-    path: "/questions",
-    name: "浏览题目",
-    component: QuestionsView,
-  },
-  {
     path: "/questions_submit",
     name: "浏览题目提交",
     component: QuestionSubmitView,
+    meta: {
+      access: accessEnum.ADMIN,
+    },
   },
   {
     path: "/question/add",

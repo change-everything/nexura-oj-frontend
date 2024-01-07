@@ -20,6 +20,7 @@ import { request as __request } from "../core/request";
 import { QuestionSubmitAddRequest } from "../models/QuestionSubmitAddRequest";
 import { QuestionSubmitQueryRequest } from "../models/QuestionSubmitQueryRequest";
 import { BaseResponse_Page_QuestionSubmitVO_ } from "../models/BaseResponse_Page_QuestionSubmitVO_";
+import { CodeTemplateQuery } from "../models/CodeTemplateQuery";
 
 export class QuestionControllerService {
   /**
@@ -258,6 +259,24 @@ export class QuestionControllerService {
       method: "POST",
       url: "/api/question/update",
       body: questionUpdateRequest,
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`,
+      },
+    });
+  }
+
+  /**
+   * 获取代码模板
+   */
+  public static getCodeTemplate(
+    codeTemplateQuery: CodeTemplateQuery
+  ): CancelablePromise<string | any> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/question/codeTemplate",
+      body: codeTemplateQuery,
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,

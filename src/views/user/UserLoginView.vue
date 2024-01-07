@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-card :style="{ width: '480px', margin: 'auto' }">
+  <div class="body">
+    <a-card :style="{ width: '480px', margin: '40px auto' }">
       <h2>欢迎登录</h2>
       <a-form
         style="max-width: 480px; margin: 0 auto"
@@ -22,11 +22,17 @@
             placeholder="请输入密码"
           />
         </a-form-item>
-        <a-form-item>
-          <a-button type="primary" html-type="submit" style="width: 120px"
-            >登录</a-button
+        <a-button
+          type="primary"
+          html-type="submit"
+          style="width: 120px; margin: 0 auto"
+          >登录</a-button
+        >
+        <div class="register">
+          没有账号？<a-link href="/user/register" class="register"
+            >去注册</a-link
           >
-        </a-form-item>
+        </div>
       </a-form>
     </a-card>
   </div>
@@ -61,3 +67,12 @@ const handleSubmit = async () => {
   }
 };
 </script>
+
+<style scoped>
+.register {
+  font-size: 11px;
+}
+.register:first-line {
+  color: rgb(128, 128, 128);
+}
+</style>

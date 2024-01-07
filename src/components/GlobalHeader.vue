@@ -21,8 +21,24 @@
         </a-menu-item>
       </a-menu>
     </a-col>
-    <a-col flex="100px">
-      <div class="username">{{ store.state.user?.loginUser?.userName }}</div>
+    <a-col flex="200px">
+      <div
+        class="username"
+        v-if="store.state.user?.loginUser?.userName === '未登录'"
+      >
+        欢迎使用nexura, <a-link href="/user/login">请登录</a-link>
+      </div>
+      <a-dropdown v-else @select="handleSelect">
+        <div class="username">
+          {{ store.state.user?.loginUser?.userName }}
+        </div>
+        <template #content>
+          <a-doption v-if="!store.state.user?.loginUser.userRole"
+            >登录</a-doption
+          >
+          <a-doption v-else>退出登录</a-doption>
+        </template>
+      </a-dropdown>
     </a-col>
   </a-row>
 </template>
@@ -34,6 +50,8 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import accessEnum from "@/access/accessEnum";
+import { UserControllerService } from "../../generated";
+import { Message } from "@arco-design/web-vue";
 
 const router = useRouter();
 
@@ -41,6 +59,19 @@ const store = useStore();
 
 // 默认主页 高亮
 const selectedKeys = ref(["/"]);
+
+const handleSelect = async (v: string) => {
+  if ("退出登录" === v) {
+    const res = await UserControllerService.userLogoutUsingPost();
+    if (res.code === 0) {
+      store.state.user.loginUser = { userName: "未登录" };
+      router.push("/user/login");
+      Message.success("注销成功");
+    } else {
+      Message.error("注销失败，" + res.data);
+    }
+  }
+};
 
 // 路由跳转时，定义选中的菜单项
 router.afterEach((to, from, failure) => {
@@ -86,5 +117,8 @@ const filterRouter = computed(() => {
 .username {
   color: #444;
   font-weight: bolder;
+  cursor: pointer;
+  float: right;
+  margin-right: 16px;
 }
 </style>

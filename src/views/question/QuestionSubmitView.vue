@@ -25,7 +25,20 @@
       @page-change="onPageChange"
     >
       <template #judgeInfo="{ record }">
-        {{ JSON.stringify(record.judgeInfo) }}
+        <a-tag v-if="record.judgeInfo.message === 'Accepted'" color="green">{{
+          record.judgeInfo.message
+        }}</a-tag>
+        <a-tag v-else color="red">{{ record.judgeInfo.message }}</a-tag>
+      </template>
+
+      <template #statusStr="{ record }">
+        {{ record.statusStr }}
+      </template>
+
+      <template #questionVO="{ record }">
+        <a-link :href="'/view/question/' + record.questionVO?.id">
+          {{ record.questionVO?.title }}</a-link
+        >
       </template>
 
       <template #createTime="{ record }">
@@ -81,28 +94,24 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "提交号",
-    dataIndex: "id",
-  },
-  {
     title: "编程语言",
     dataIndex: "language",
   },
   {
     title: "判题状态",
-    dataIndex: "status",
+    slotName: "statusStr",
   },
   {
     title: "判题信息",
     slotName: "judgeInfo",
   },
   {
-    title: "题目Id",
-    dataIndex: "questionId",
+    title: "题目",
+    slotName: "questionVO",
   },
   {
-    title: "提交者Id",
-    dataIndex: "userId",
+    title: "提交者",
+    dataIndex: "userName",
   },
   {
     title: "创建时间",
