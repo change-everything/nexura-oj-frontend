@@ -1,5 +1,5 @@
 <template>
-  <div id="QuestionSubmitView">
+  <div id="MyQuestionSolutionView">
     <a-table
       :ref="tableRef"
       :columns="columns"
@@ -138,7 +138,7 @@ const doSearch = () => {
 </script>
 
 <style scoped>
-#QuestionSubmitView {
+#MyQuestionSolutionView {
   max-width: 1280px;
   margin: 0 auto;
 }

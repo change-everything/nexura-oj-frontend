@@ -34,11 +34,18 @@
         </a-space>
       </template>
       <template #acceptedRate="{ record }">
-        {{
-          `${
-            record.submitNum ? record.acceptedNum / record.submitNum : "0"
-          }% (${record.acceptedNum}/${record.submitNum})`
-        }}
+        <span :class="{ acceptedRate: true }">
+          {{
+            `${
+              record.submitNum
+                ? Number.parseFloat(
+                    ((record.acceptedNum / record.submitNum) * 100) as string
+                  ).toFixed(2)
+                : "0.00"
+            }%`
+          }}
+        </span>
+        <span> ( {{ `${record.acceptedNum}/${record.submitNum}` }} ) </span>
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
@@ -144,5 +151,9 @@ const doSearch = () => {
 #questionsView {
   max-width: 1280px;
   margin: 0 auto;
+}
+.acceptedRate {
+  font-size: 24px;
+  color: darkorange;
 }
 </style>

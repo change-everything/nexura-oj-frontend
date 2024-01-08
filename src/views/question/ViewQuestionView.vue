@@ -32,7 +32,9 @@
               </template>
             </a-card>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="题解">暂时无法查看答案 </a-tab-pane>
+          <a-tab-pane key="comment" title="题解">
+            <QuestionsSolutionView :questionId="props.id" />
+          </a-tab-pane>
           <a-tab-pane key="answer" title="提交记录">
             <MyQuestionSubmitView />
           </a-tab-pane>
@@ -87,6 +89,7 @@ import MdViewer from "@/components/MdViewer.vue";
 import store from "@/store";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import MyQuestionSubmitView from "@/views/question/MyQuestionSubmitView.vue";
+import QuestionsSolutionView from "@/views/question/QuestionsSolutionView.vue";
 
 interface Props {
   id: string;
