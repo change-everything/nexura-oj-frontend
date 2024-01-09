@@ -13,4 +13,6 @@ export type QuestionSolutionVO = {
   userId?: number;
   solution?: string;
   createTime?: string;
+  solutionId?: string;
+  title?: string;
 };

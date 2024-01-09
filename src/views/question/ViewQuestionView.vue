@@ -2,9 +2,23 @@
   <div id="viewQuestionView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-tabs default-active-key="question">
-          <a-tab-pane key="question" title="描述">
-            <a-card v-if="question" :title="question.title">
+        <a-tabs
+          default-active-key="question"
+          v-model:active-key="activeKey"
+          lazy-load
+          type="card-gutter"
+          :editable="true"
+          @add="handleAdd"
+          @delete="handleDelete"
+          auto-switch
+          animation
+        >
+          <a-tab-pane :closable="false" key="question" title="描述">
+            <a-card
+              v-if="question"
+              :title="question.title"
+              style="height: 75vh; overflow: auto"
+            >
               <a-descriptions
                 title="判题条件"
                 :column="{ xs: 1, md: 3, lg: 4 }"
@@ -32,11 +46,52 @@
               </template>
             </a-card>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="题解">
-            <QuestionsSolutionView :questionId="props.id" />
+          <a-tab-pane :closable="false" key="solution" title="题解">
+            <QuestionsSolutionView
+              @doAddTab="handleAdd"
+              :questionId="props.id"
+            />
           </a-tab-pane>
-          <a-tab-pane key="answer" title="提交记录">
+          <a-tab-pane :closable="false" key="record" title="提交记录">
             <MyQuestionSubmitView />
+          </a-tab-pane>
+          <a-tab-pane
+            v-for="(item, index) of data"
+            :key="item.key"
+            :title="item.title"
+            :closable="index !== 2"
+          >
+            <div style="margin: 12px">
+              <div style="height: 72vh; overflow: auto">
+                <a-space direction="vertical" fill>
+                  <span style="font-size: 16px; font-weight: bold">{{
+                    item.title
+                  }}</span>
+                  <a-space>
+                    <a-avatar :imageUrl="item.userVO.userAvatar"> </a-avatar>
+                    <a-space direction="vertical" fill>
+                      <span style="font-size: 16px">{{
+                        item.userVO.userName
+                      }}</span>
+                      <span style="font-size: 10px; color: rgb(128, 128, 128)">
+                        <icon-calendar />&nbsp;&nbsp;{{
+                          moment(item.createTime).format("YYYY-MM-DD")
+                        }}</span
+                      >
+                    </a-space>
+                  </a-space>
+                  <a-space wrap>
+                    <a-tag
+                      v-for="(tag, index) of JSON.parse(item.tags)"
+                      :key="index"
+                      >{{ tag }}</a-tag
+                    >
+                  </a-space>
+                </a-space>
+
+                <MdViewer :value="item?.content || ''" />
+              </div>
+            </div>
           </a-tab-pane>
         </a-tabs>
       </a-col>
@@ -90,6 +145,14 @@ import store from "@/store";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import MyQuestionSubmitView from "@/views/question/MyQuestionSubmitView.vue";
 import QuestionsSolutionView from "@/views/question/QuestionsSolutionView.vue";
+import { QuestionSolutionVO } from "../../../generated/models/QuestionSolutionVO";
+import moment from "moment/moment";
+
+const data = ref([]);
+
+const activeKey = ref("question");
+
+let count = 5;
 
 interface Props {
   id: string;
@@ -166,6 +229,24 @@ const onCodeChange = (value: string) => {
 
 const languageChange = async (value: string) => {
   getCodeTemplate(value);
+};
+
+const handleAdd = (questionSolution: QuestionSolutionVO) => {
+  if (data.value.includes(questionSolution)) {
+    console.log("重复点击");
+  } else {
+    data.value = data.value.concat({
+      key: questionSolution.solutionId,
+      title: questionSolution.title,
+      content: questionSolution.solution,
+      ...questionSolution,
+    });
+    activeKey.value = questionSolution.solutionId;
+  }
+};
+const handleDelete = (key: number) => {
+  data.value = data.value.filter((item) => item.key !== key);
+  activeKey.value = "solution";
 };
 </script>
 

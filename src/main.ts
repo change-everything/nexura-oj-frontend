@@ -7,10 +7,15 @@ import router from "./router";
 import store from "./store";
 import "./access";
 import "bytemd/dist/index.css";
+import "bytemd/locales/zh_Hans.json";
+import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/lib/common";
+import hljsVuePlugin from "@highlightjs/vue-plugin";
 
 createApp(App)
   .use(ArcoVue)
   .use(store)
   .use(router)
   .use(ArcoVueIcon)
+  .use(hljsVuePlugin)
   .mount("#app");
