@@ -9,7 +9,7 @@
 ## 其他项目
 |                                |                                                                 |
 |--------------------------------|-----------------------------------------------------------------|
-| nexura-oj-frontend(后端单体版)      | https://github.com/change-everything/nexura-oj-backend.git      |
+| nexura-oj-backend(后端单体版)       | https://github.com/change-everything/nexura-oj-backend.git      |
 | nexura-oj-sandbox (代码沙箱)       | https://github.com/change-everything/nexura-oj-sandbox.git      |
 | nexura-oj-microservice(后端微服务版) | https://github.com/change-everything/nexura-oj-microservice.git |
 
