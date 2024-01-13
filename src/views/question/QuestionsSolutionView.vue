@@ -181,10 +181,12 @@ const avatarSrc = [
 ];
 
 const loadData = async () => {
+  const { questionId } = toRefs(props);
   const res =
     await QuestionSolutionControllerService.listQuestionSolutionByPageUsingPost(
       {
         ...searchParams.value,
+        questionId: questionId?.value,
       }
     );
   if (res.code === 0) {

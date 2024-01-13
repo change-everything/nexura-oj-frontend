@@ -2,38 +2,47 @@
   <div class="body">
     <a-card :style="{ width: '480px', margin: '40px auto' }">
       <h2>欢迎登录</h2>
-      <a-form
-        style="max-width: 480px; margin: 0 auto"
-        label-align="left"
-        auto-label-width
-        :model="form"
-        @submit="handleSubmit"
-      >
-        <a-form-item field="userAccount" label="账号">
-          <a-input v-model="form.userAccount" placeholder="请输入账号" />
-        </a-form-item>
-        <a-form-item
-          field="userPassword"
-          tooltip="密码不少于 8 位"
-          label="密码"
-        >
-          <a-input-password
-            v-model="form.userPassword"
-            placeholder="请输入密码"
-          />
-        </a-form-item>
-        <a-button
-          type="primary"
-          html-type="submit"
-          style="width: 120px; margin: 0 auto"
-          >登录</a-button
-        >
-        <div class="register">
-          没有账号？<a-link href="/user/register" class="register"
-            >去注册</a-link
+      <a-tabs lazy-load>
+        <a-tab-pane key="1">
+          <template #title> <icon-user /> 账号登录 </template>
+          <a-form
+            style="max-width: 480px; margin: 0 auto"
+            label-align="left"
+            auto-label-width
+            :model="form"
+            @submit="handleSubmit"
           >
-        </div>
-      </a-form>
+            <a-form-item field="userAccount" label="账号">
+              <a-input v-model="form.userAccount" placeholder="请输入账号" />
+            </a-form-item>
+            <a-form-item
+              field="userPassword"
+              tooltip="密码不少于 8 位"
+              label="密码"
+            >
+              <a-input-password
+                v-model="form.userPassword"
+                placeholder="请输入密码"
+              />
+            </a-form-item>
+            <a-button
+              type="primary"
+              html-type="submit"
+              style="width: 120px; margin: 0 auto"
+              >登录</a-button
+            >
+            <div class="register">
+              没有账号？<a-link href="/user/register" class="register"
+                >去注册</a-link
+              >
+            </div>
+          </a-form>
+        </a-tab-pane>
+        <a-tab-pane key="2">
+          <template #title> <icon-wechat /> 微信登录 </template>
+          Content of Tab Panel 2
+        </a-tab-pane>
+      </a-tabs>
     </a-card>
   </div>
 </template>

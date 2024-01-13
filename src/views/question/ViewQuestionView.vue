@@ -188,7 +188,6 @@ const loadData = async () => {
 };
 
 const getCodeTemplate = async (value: string) => {
-  console.log("2222", question.value);
   const codeRes = await QuestionControllerService.getCodeTemplate({
     title: question.value?.title as any,
     language: value as any,
@@ -199,7 +198,6 @@ const getCodeTemplate = async (value: string) => {
 };
 
 onMounted(() => {
-  console.log(123);
   loadData();
 });
 
@@ -211,9 +209,8 @@ const doSubmit = async () => {
     ...form.value,
     questionId: question.value?.id,
   });
-  if (res.code === 0) {
-    Message.success("提交成功");
-  } else {
+  Message.success("提交成功");
+  if (res.code !== 0) {
     Message.error("提交失败, " + res.message);
   }
 };

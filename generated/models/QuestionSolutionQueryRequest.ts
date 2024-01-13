@@ -11,4 +11,5 @@ export type QuestionSolutionQueryRequest = {
   sortOrder?: string;
   title?: string;
   userId?: number;
+  questionId?: string;
 };
